@@ -1,0 +1,332 @@
+/* Program na zaliczenie z jêzyka C.
+   Autor: Maksymilian Plesniak */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <ctype.h>
+
+
+void Intro(void)
+{
+    printf("\n");
+    printf("  * * * * * * * * * * * * * * * * * * * * * * * * * * *\n");
+    printf("  *   _                                               *\n");
+    printf("  *  | |                                              *\n");
+    printf("  *  | |__   __ _ _ __   __ _ _ __ ___   __ _ _ __    *\n");
+    printf("  *  |  _ \\ / _` |  _ \\ / _` |  _ ` _ \\ / _` |  _ \\   *\n");
+    printf("  *  | | | | (_| | | | | (_| | | | | | | (_| | | | |  *\n");
+    printf("  *  |_| |_|\\__,_|_| |_|\\__, |_| |_| |_|\\__,_|_| |_|  *\n");
+    printf("  *                      __/ |                        *\n");
+    printf("  *                     |___/                         *\n");
+    printf("  *                                                   *\n");
+    printf("  *                                                   *\n");
+    printf("  *              Press ENTER to continue              *\n");
+    printf("  *                                                   *\n");
+
+    printf("  * * * * * * * * * * * * * * * * * * * * * * * * * * *\n");
+    getchar();
+    system("cls");
+}
+
+void Base()
+{
+    int i = 0;
+    printf("\n\n\n");
+    for(i = 0; i<5; i++)
+        printf("             |\n");
+    printf("            _|___");
+}
+
+void Upper()
+{
+    int i = 0;
+    printf("\n              _______\n");
+    printf("             |/      |\n");
+    for(i = 0; i<5; i++)
+        printf("             |\n");
+    printf("            _|___");
+}
+
+void Head()
+{
+    int i = 0;
+    printf("\n              _______\n");
+    printf("             |/      |\n");
+    printf("             |      (_)\n");
+    for(i = 0; i<4; i++)
+        printf("             |\n");
+    printf("            _|___");
+}
+
+void LHand()
+{
+    int i = 0;
+    printf("\n              _______\n");
+    printf("             |/      |\n");
+    printf("             |      (_)\n");
+    printf("             |      \\|\n");
+    for(i = 0; i<3; i++)
+        printf("             |\n");
+    printf("            _|___");
+}
+
+void RHand()
+{
+    int i = 0;
+    printf("\n              _______\n");
+    printf("             |/      |\n");
+    printf("             |      (_)\n");
+    printf("             |      \\|/\n");
+    for(i = 0; i<3; i++)
+        printf("             |\n");
+    printf("            _|___");
+}
+
+void LLeg()
+{
+    int i = 0;
+    printf("\n              _______\n");
+    printf("             |/      |\n");
+    printf("             |      (_)\n");
+    printf("             |      \\|/\n");
+    printf("             |       |\n");
+    printf("             |      /\n");
+    for(i = 0; i<1; i++)
+        printf("             |\n");
+    printf("            _|___");
+}
+
+void RLeg()
+{
+    printf("\n              _______\n");
+    printf("             |/      |\n");
+    printf("             |      (_)\n");
+    printf("             |      \\|/\n");
+    printf("             |       |\n");
+    printf("             |      / \\\n");
+    printf("             |\n");
+    printf("            _|___");
+}
+
+
+
+int main() {
+
+    int Again = 0;
+
+    while( Again == 0)
+    {
+
+    system("cls");
+
+    Intro();
+
+    srand( time( NULL ) );
+
+    char Words[][15] = {
+        "boar",
+        "dog",
+        "cat",
+        "world",
+        "color",
+        "panda",
+        "language",
+        "spaceship",
+        "hangman"
+    };
+
+    int wordCount;
+    wordCount = (sizeof(Words)/sizeof(Words[0]));
+
+    int wordNum;                                                                          /* Getting random word */
+    wordNum = rand() % wordCount;
+
+
+    int Level;
+    printf("\n\n\n\n\n\n                         LEVEL:\n\n                        1. EASY\n\n                        2. HARD\n\n                        ");
+    scanf(" %d", &Level);
+    getchar();
+
+    switch(Level)
+    {
+        case 1:
+            wordNum = wordNum/2;
+            break;
+        case 2:
+            wordNum = ( wordNum/2 ) + (wordCount/2);
+            break;
+        default:
+            wordNum = wordNum/2;
+            break;
+    }
+
+    system ("cls");
+    Base();
+
+    int letterCount;
+    letterCount = strlen(Words[wordNum]);
+
+        printf(" indeks= %d , slowo= %s , liczba Inputow= %d \n\n\n", wordNum, Words[wordNum], letterCount );
+
+    char oldGuessed[30];                                                                 /*                               */
+    int oldGuessedIndex = 0;                                                             /*      Anti-duplicate system    */
+    int Loop = 0;                                                                        /*                               */
+
+    int guessedNum = 0;                                                                  /*                               */
+    int Lives = 6;                                                                       /*      Win / lose arguments     */
+    int checkLives = 0;                                                                  /*                               */
+
+    char letterArray[letterCount];                                                       /*                               */
+    int letterNum = 0;                                                                   /*                               */
+                                                                                         /*        { w, o, r, d }         */
+    for( letterNum = 0; letterNum < letterCount; letterNum++ )                           /*        { 0, 0, 0, 0 }         */
+    {                                                                                    /*                               */
+        letterArray[letterNum] = 0;                                                      /*                               */
+    }                                                                                    /*                               */
+
+    char Input;                                                                              /* INPUT */
+
+    while ( guessedNum < letterCount )
+    {
+
+                checkLives = guessedNum;
+
+                printf("\n\n           ");
+                for( letterNum = 0; letterNum < letterCount; letterNum++ )                      /*                   */
+                {                                                                               /*                   */
+                    if( letterArray[letterNum] == 1 )                                           /*                   */
+                    {                                                                           /*   { w, o, r, d }  */
+                        printf("%c", Words[wordNum][letterNum]);                                /*   { 1, 1, 0, 1 }  */
+                    }                                                                           /*       printf      */
+                    else                                                                        /*                   */
+                    {                                                                           /*       wo-d        */
+                        printf("-");                                                            /*                   */
+                    }                                                                           /*                   */
+                }                                                                               /*                   */
+
+                printf("\n\n");
+                printf("           ");
+
+                int lower = 0;
+                int duplicate = 0;
+                char c;
+                while( (c=fgetc(stdin)) != '\n' && ' ') Input = c;
+
+                oldGuessed[oldGuessedIndex] = Input;                                                  /* Saving input for anti-duplicate */
+
+                if( islower(Input) )                                                                  /* Lower letter check              */
+                {
+                    lower = 1;
+                    for( Loop = 0; Loop < oldGuessedIndex; Loop++ )
+                    {
+                        if( oldGuessed[Loop] == Input )                                               /* Anti-duplicate system           */
+                        {
+                            duplicate=1;
+
+                            break;
+                        }
+                    }
+
+                    oldGuessedIndex++;
+
+                    if( !duplicate )
+                    {
+
+                        for( letterNum = 0; letterNum < letterCount; letterNum++ )
+                        {
+
+                            if ( Input == Words[wordNum][letterNum] )
+                            {
+                                guessedNum++;
+                                letterArray[letterNum] = 1;
+                            }
+                        }
+
+                        if( checkLives == guessedNum)
+                        {
+                            Lives--;
+                        }
+
+                    }
+
+                }
+
+                    if( Lives == 6)
+                    {
+                        system("cls");
+                        Base();
+                    }
+                    else if( Lives == 5 )
+                    {
+                        system("cls");
+                        Upper();
+                    }
+                    else if( Lives == 4 )
+                    {
+                        system("cls");
+                        Head();
+                    }
+                    else if( Lives == 3 )
+                    {
+                        system("cls");
+                        LHand();
+                    }
+                    else if( Lives == 2 )
+                    {
+                        system("cls");
+                        RHand();
+                    }
+                    else if( Lives == 1 )
+                    {
+                        system("cls");
+                        LLeg();
+                    }
+                    else
+                    {
+                        system("cls");
+                        RLeg();
+                        printf(" GAME OVER\n\n\n\n");
+                        printf("           The word was: %s\n\n", Words[wordNum] );
+                        break;
+                    }
+
+                    if( guessedNum == letterCount )
+                    {
+                        printf("  YOU WIN!\n\n\n\n");
+                        printf("           %s\n", Words[wordNum]);
+                    }
+
+                    printf("\n\n");
+
+                    if(duplicate == 1)
+                        printf("           YOU'VE ALREADY GUESSED: %c", Input);
+                    else if(lower == 0)
+                        printf("           ONLY LOWER LETTERS ALLOWED");
+
+        }
+
+        int Play;
+
+
+        printf(" Press 1 key to try again\n\n Press any other key to quit\n\n ");
+
+        scanf(" %d", &Play);
+        getchar();
+
+        switch(Play)
+        {
+            case 1:
+                Again = 0;
+                break;
+            default:
+                Again = 1;
+        }
+
+    }
+
+return 0;
+
+}
+
