@@ -1,12 +1,8 @@
-/* Program na zaliczenie z jezyka C.
-   Autor: Maksymilian Plesniak */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <ctype.h>
-
 
 void Intro(void)
 {
@@ -338,4 +334,3 @@ int main() {
 return 0;
 
 }
-
